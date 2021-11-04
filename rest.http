@@ -1,0 +1,33 @@
+# Layers
+
+GET https://localhost:5001/orders/5
+
+### Create
+POST https://localhost:5001/orders
+content-type: application/json
+
+{
+    "items": [
+        {
+            "productId": 2,
+            "quantity": 1
+        }
+    ]
+}
+
+### Update
+PUT https://localhost:5001/orders/5
+content-type: application/json
+
+{
+    "items": [
+        {
+            "productId": 2,
+            "quantity": 2
+        },
+        {
+            "productId": 1,
+            "quantity": 5
+        }
+    ]
+}
