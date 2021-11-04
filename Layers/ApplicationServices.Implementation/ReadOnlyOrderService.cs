@@ -3,30 +3,28 @@ using System.Threading.Tasks;
 using ApplicationServices.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using CQ.CqrsFramework;
-using CQ.UseCases.Order.Queries.GetOrderById;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CQ.UseCases.Order.Queries.GetOrderById
+namespace ApplicationServices.Implementation
 {
-    public class GetOrderByIdQueryHandler : IQueryHandler<GetOrderByIdQuery, OrderDto>
+    public class ReadOnlyOrderService : IReadOnlyOrderService
     {
         private readonly IReadOnlyDbContext _dbContext;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetOrderByIdQueryHandler(IReadOnlyDbContext dbContext, ICurrentUserService currentUserService, IMapper mapper)
+        public ReadOnlyOrderService(IReadOnlyDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
-            _currentUserService = currentUserService;
             _mapper = mapper;
+            _currentUserService = currentUserService;
         }
 
-        public async Task<OrderDto> HandleAsync(GetOrderByIdQuery request)
+        public async Task<OrderDto> GetByIdAsync(int id)
         {
             var result = await _dbContext.Orders
-                .Where(o => o.Id == request.Id)
+                .Where(o => o.Id == id)
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .SingleAsync();
 

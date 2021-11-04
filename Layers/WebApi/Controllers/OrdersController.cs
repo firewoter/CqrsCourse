@@ -16,9 +16,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public Task<OrderDto> GetByIdAsync(int id)
+        public Task<OrderDto> GetByIdAsync(int id, [FromServices] IReadOnlyOrderService readOnlyOrderService)
         {
-            return _orderService.GetByIdAsync(id);
+            return readOnlyOrderService.GetByIdAsync(id);
         }
 
         [HttpPost]

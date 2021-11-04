@@ -11,5 +11,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Entities\Layers.Entities.csproj" />
   </ItemGroup>
-
 </Project>

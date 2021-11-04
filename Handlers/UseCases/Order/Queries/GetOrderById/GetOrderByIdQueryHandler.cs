@@ -14,11 +14,11 @@ namespace Handlers.UseCases.Order.Queries.GetOrderById
 {
     public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, OrderDto>
     {
-        private readonly IDbContext _dbContext;
+        private readonly IReadOnlyDbContext _dbContext;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
 
-        public GetOrderByIdQueryHandler(IDbContext dbContext, ICurrentUserService currentUserService, IMapper mapper)
+        public GetOrderByIdQueryHandler(IReadOnlyDbContext dbContext, ICurrentUserService currentUserService, IMapper mapper)
         {
             _dbContext = dbContext;
             _currentUserService = currentUserService;

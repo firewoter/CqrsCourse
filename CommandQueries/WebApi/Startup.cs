@@ -40,11 +40,25 @@ namespace WebApi
             services.AddAutoMapper(typeof(OrderMapperProfile));
             services.AddDbContext<IDbContext, AppDbContext>(builder =>
                 builder.UseSqlServer(Configuration.GetConnectionString("Database")));
+            services.AddDbContext<IReadOnlyDbContext, ReadOnlyAppDbContext>(builder =>
+                builder.UseSqlServer(Configuration.GetConnectionString("Database")));
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-            services.AddScoped<IQueryHandler<GetOrderByIdQuery, OrderDto>, GetOrderByIdQueryHandler>();
-            services.AddScoped<ICommandHandler<CreateOrderCommand>, CreateOrderCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateOrderCommand>, UpdateOrderCommandHandler>();
+            services.Scan(selector =>
+                selector.FromAssemblyOf<GetOrderByIdQuery>()
+                    .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime());
+
+            services.Scan(selector =>
+                selector.FromAssemblyOf<CreateOrderCommand>()
+                    .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>)))
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime());
+
+            //services.AddScoped<IQueryHandler<GetOrderByIdQuery, OrderDto>, GetOrderByIdQueryHandler>();
+            //services.AddScoped<ICommandHandler<CreateOrderCommand>, CreateOrderCommandHandler>();
+            //services.AddScoped<ICommandHandler<UpdateOrderCommand>, UpdateOrderCommandHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

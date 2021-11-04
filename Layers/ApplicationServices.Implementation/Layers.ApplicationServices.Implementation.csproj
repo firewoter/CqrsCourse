@@ -12,5 +12,4 @@
     <ProjectReference Include="..\ApplicationServices.Interfaces\Layers.ApplicationServices.Interfaces.csproj" />
     <ProjectReference Include="..\Infrastructure.Interfaces\Layers.Infrastructure.Interfaces.csproj" />
   </ItemGroup>
-
 </Project>
