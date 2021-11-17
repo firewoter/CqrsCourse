@@ -1,6 +1,6 @@
 # Layers
 
-GET https://localhost:5001/orders/5
+GET https://localhost:5001/orders/4
 
 ### Create
 POST https://localhost:5001/orders
@@ -23,7 +23,7 @@ content-type: application/json
     "items": [
         {
             "productId": 2,
-            "quantity": 2
+            "quantity": 3
         },
         {
             "productId": 1,

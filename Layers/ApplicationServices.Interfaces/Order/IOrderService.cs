@@ -2,8 +2,7 @@
 
 namespace ApplicationServices.Interfaces
 {
-    public interface IReadOnlyOrderService
+    public interface IOrderService : IEntityService<ChangeOrderDto>
     {
-        Task<OrderDto> GetByIdAsync(int id);
     }
 }

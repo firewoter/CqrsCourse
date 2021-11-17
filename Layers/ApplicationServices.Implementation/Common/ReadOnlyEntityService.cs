@@ -3,29 +3,29 @@ using System.Threading.Tasks;
 using ApplicationServices.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationServices.Implementation
 {
-    public class ReadOnlyOrderService : IReadOnlyOrderService
+    public class ReadOnlyEntityService<TEntity, TDto> : IReadOnlyEntityService<TDto>
+        where TEntity : Entity
     {
         private readonly IReadOnlyDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly ICurrentUserService _currentUserService;
 
-        public ReadOnlyOrderService(IReadOnlyDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService)
+        protected ReadOnlyEntityService(IReadOnlyDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _currentUserService = currentUserService;
         }
 
-        public async Task<OrderDto> GetByIdAsync(int id)
+        public async Task<TDto> GetByIdAsync(int id)
         {
-            var result = await _dbContext.Orders
+            var result = await _dbContext.Set<TEntity>()
                 .Where(o => o.Id == id)
-                .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .SingleAsync();
 
             return result;
